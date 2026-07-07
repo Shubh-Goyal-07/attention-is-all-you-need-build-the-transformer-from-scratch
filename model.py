@@ -287,8 +287,12 @@ def apply_ffn_first_linear_and_relu(x, w1, b1):
     
     return z
 
-# Step 33 - apply_ffn_second_linear (not yet solved)
-# TODO: implement
+# Step 33 - apply_ffn_second_linear
+import torch
+
+def apply_ffn_second_linear(hidden, w2, b2):
+    o = apply_linear_projection(hidden, w2.t(), b2)
+    return o
 
 # Step 34 - position_wise_feed_forward_network (not yet solved)
 # TODO: implement
