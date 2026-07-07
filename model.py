@@ -186,8 +186,25 @@ def apply_attention_weights_to_values(attention_weights, value):
     """Multiply attention weights by the value matrix to produce context vectors."""
     return attention_weights @ value
 
-# Step 22 - scaled_dot_product_attention (not yet solved)
-# TODO: implement
+# Step 22 - scaled_dot_product_attention
+import torch
+
+def scaled_dot_product_attention(query, key, value, mask=None):
+    """Run scaled dot-product attention; return (context, attention_weights)."""
+
+    d_k = key.shape[-1]
+    L_k = key.shape[-2]
+
+    attn_scores = compute_raw_attention_scores(query, key)
+    attn_scores = scale_attention_scores(attn_scores, d_k)
+
+    if mask is not None:
+        attn_scores = mask_attention_scores_with_neg_inf(attn_scores, mask)
+
+    attn_weights = softmax_attention_weights(attn_scores)
+    context = apply_attention_weights_to_values(attn_weights, value)
+
+    return context, attn_weights
 
 # Step 23 - split_last_dim_into_heads (not yet solved)
 # TODO: implement
