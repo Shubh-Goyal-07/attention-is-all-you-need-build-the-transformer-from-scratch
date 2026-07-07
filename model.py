@@ -301,8 +301,12 @@ def position_wise_feed_forward_network(x, w1, b1, w2, b2):
 
     return o
 
-# Step 35 - compute_layer_norm_mean_and_variance (not yet solved)
-# TODO: implement
+# Step 35 - compute_layer_norm_mean_and_variance
+import torch
+
+def compute_layer_norm_mean_and_variance(x):
+    # population correction, by default variance is divided by N-1, correction 0 makes it divide by N
+    return x.mean(dim=-1).unsqueeze(-1), x.var(dim=-1, correction=0).unsqueeze(-1)
 
 # Step 36 - normalize_and_scale_with_gamma_beta (not yet solved)
 # TODO: implement
