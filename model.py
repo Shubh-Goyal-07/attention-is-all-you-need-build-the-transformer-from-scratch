@@ -85,8 +85,9 @@ import torch
 
 def fill_even_indices_with_sin(pe, position, div_term):
     """Fill even feature indices of pe with sin(position * div_term)."""
-    for i in range(0, pe.shape[1], 2):
-        pe[:, i] = torch.sin(position.squeeze(-1) * div_term[i//2])
+    # for i in range(0, pe.shape[1], 2):
+    #     pe[:, i] = torch.sin(position.squeeze(-1) * div_term[i//2])
+    pe[:, 0::2] = torch.sin(position * div_term)
     return pe
 
 # Step 11 - fill_odd_indices_with_cos (not yet solved)
