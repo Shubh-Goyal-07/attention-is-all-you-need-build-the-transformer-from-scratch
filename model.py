@@ -163,8 +163,12 @@ import math
 def scale_attention_scores(scores, d_k):
     return scores / (d_k**(1/2))
 
-# Step 19 - mask_attention_scores_with_neg_inf (not yet solved)
-# TODO: implement
+# Step 19 - mask_attention_scores_with_neg_inf
+import torch
+
+def mask_attention_scores_with_neg_inf(scores, mask):
+    """Set entries of scores where mask is False to -inf."""
+    return torch.where(mask, scores, float("-inf"))
 
 # Step 20 - softmax_attention_weights (not yet solved)
 # TODO: implement
