@@ -265,8 +265,20 @@ def merge_heads_and_project_output(context, w_o, b_o):
     
     return o
 
-# Step 31 - assemble_multi_head_attention_forward (not yet solved)
-# TODO: implement
+# Step 31 - assemble_multi_head_attention_forward
+def assemble_multi_head_attention_forward(query, key, value, w_q, w_k, w_v, w_o, num_heads, mask=None):
+    # TODO: project Q/K/V, split into heads, run scaled dot-product attention, merge heads, output projection.
+    Q = apply_linear_projection(query, w_q, None)
+    K = apply_linear_projection(key, w_k, None)
+    V = apply_linear_projection(value, w_v, None)
+
+    q_h, k_h, v_h = split_qkv_into_heads(Q, K, V, num_heads)
+
+    context, attn_weights = scaled_dot_product_attention(q_h, k_h, v_h, mask)
+
+    O = merge_heads_and_project_output(context, w_o, None)
+    
+    return O
 
 # Step 32 - apply_ffn_first_linear_and_relu (not yet solved)
 # TODO: implement
