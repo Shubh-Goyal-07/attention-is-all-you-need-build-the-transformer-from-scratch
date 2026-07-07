@@ -318,8 +318,14 @@ def normalize_and_scale_with_gamma_beta(x, gamma, beta, eps=1e-5):
     
     return x_hat * gamma + beta
 
-# Step 37 - apply_residual_add_and_norm (not yet solved)
-# TODO: implement
+# Step 37 - apply_residual_add_and_norm
+import torch
+
+def apply_residual_add_and_norm(residual_input, sublayer_output, gamma, beta, eps=1e-5):
+    x = residual_input + sublayer_output
+    x_norm = normalize_and_scale_with_gamma_beta(x, gamma, beta, eps)
+
+    return x_norm
 
 # Step 38 - apply_dropout_with_keep_mask (not yet solved)
 # TODO: implement
