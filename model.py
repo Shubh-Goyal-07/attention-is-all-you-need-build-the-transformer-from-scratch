@@ -72,8 +72,13 @@ def compute_positional_div_term(d_model):
     divisors = torch.tensor([10000**(-2*i/d_model) for i in range(0, d_model//2)])
     return divisors
 
-# Step 9 - build_position_index_column (not yet solved)
-# TODO: implement
+# Step 9 - build_position_index_column
+import torch
+
+def build_position_index_column(max_len):
+    """Return a (max_len, 1) float tensor of [0, 1, ..., max_len-1]."""
+    
+    return torch.tensor([[i] for i in range(0, max_len)], dtype=torch.float32)
 
 # Step 10 - fill_even_indices_with_sin (not yet solved)
 # TODO: implement
