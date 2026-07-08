@@ -354,7 +354,7 @@ def assemble_encoder_layer(x, layer_params, num_heads, src_mask):
         num_heads, src_mask)
 
     o = encoder_layer_feed_forward_sublayer(
-        x, 
+        x_attn_enc, 
         layer_params['w1'], layer_params['b1'], 
         layer_params['w2'], layer_params['b2'], 
         layer_params['ffn_gamma'], layer_params['ffn_beta'])
