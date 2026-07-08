@@ -620,9 +620,9 @@ def collect_model_parameters_into_list(encoder_layer_params, decoder_layer_param
 
 # Step 56 - shift_targets_right_with_start_token
 def shift_targets_right_with_start_token(target_ids, start_token_id):
-    seq_len = target_ids.shape[-1]
-    target_ids_shifted = torch.full(target_ids.shape, start_token_id)
-    target_ids_shifted[:, 1:] = target_ids[:, :seq_len-1]
+    target_ids_shifted = torch.empty_like(target_ids)
+    target_ids_shifted[:, 0] = start_token_id
+    target_ids_shifted[:, 1:] = target_ids[:, :-1]
     return target_ids_shifted
 
 # Step 57 - compute_noam_learning_rate (not yet solved)
