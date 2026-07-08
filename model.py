@@ -625,8 +625,11 @@ def shift_targets_right_with_start_token(target_ids, start_token_id):
     target_ids_shifted[:, 1:] = target_ids[:, :-1]
     return target_ids_shifted
 
-# Step 57 - compute_noam_learning_rate (not yet solved)
-# TODO: implement
+# Step 57 - compute_noam_learning_rate
+def compute_noam_learning_rate(step, d_model, warmup_steps):
+    step_factor = min(step**(-1/2), step*(warmup_steps**(-3/2)))
+    lr = d_model**(-1/2) * step_factor
+    return lr
 
 # Step 58 - build_uniform_smoothing_distribution (not yet solved)
 # TODO: implement
