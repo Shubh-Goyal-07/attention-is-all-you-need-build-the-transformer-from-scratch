@@ -389,32 +389,10 @@ def decoder_layer_masked_self_attention_sublayer(y, w_q, w_k, w_v, w_o, gamma, b
 import torch
 
 def decoder_layer_cross_attention_sublayer(y, encoder_output, w_q, w_k, w_v, w_o, gamma, beta, num_heads, src_mask):
-    # y_cross_attn_ctx = assemble_multi_head_attention_forward(y, encoder_output, encoder_output, w_q, w_k, w_v, w_o, num_heads, src_mask)
-    # print(y.shape, y_cross_attn_ctx.shape)
-    # o = apply_residual_add_and_norm(y, y_cross_attn_ctx, gamma, beta)
-    Q = apply_linear_projection(y, w_q, None)
-    K = apply_linear_projection(encoder_output, w_k, None)
-    V = apply_linear_projection(encoder_output, w_v, None)
-
-    q_h, k_h, v_h = split_qkv_into_heads(Q, K, V, num_heads)
-
-    print(f"Q: {q_h.shape}, K: {k_h.shape}, V: {v_h.shape}")
-
-    d_k = k_h.shape[-1]
-    # context, attn_weights = scaled_dot_product_attention(q_h, k_h, v_h, src_mask)
-    attn_scores = compute_raw_attention_scores(q_h, k_h)
-    attn_scores = scale_attention_scores(attn_scores, d_k)
+    y_cross_attn_ctx = assemble_multi_head_attention_forward(y, encoder_output, encoder_output, w_q, w_k, w_v, w_o, num_heads, src_mask)
+    o = apply_residual_add_and_norm(y, y_cross_attn_ctx, gamma, beta)
     
-    attn_scores = torch.where(src_mask, attn_scores, float("-inf"))
-    
-    attn_weights = softmax_attention_weights(attn_scores)
-
-
-    print(f"Attention Weights: {attn_weights.shape}")
-    context = apply_attention_weights_to_values(attn_weights, v_h)
-    print(f"Context: {context.shape}")
-
-    return y
+    return o
 
 # Step 45 - decoder_layer_feed_forward_sublayer (not yet solved)
 # TODO: implement
