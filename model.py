@@ -168,7 +168,6 @@ import torch
 
 def mask_attention_scores_with_neg_inf(scores, mask):
     """Set entries of scores where mask is False to -inf."""
-    # return torch.where(mask, scores, float("-inf"))
     if mask.ndim == 2:
         extra_dims = scores.ndim - mask.ndim
         mask = mask.view(
