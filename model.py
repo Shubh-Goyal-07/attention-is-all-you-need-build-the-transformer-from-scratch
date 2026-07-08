@@ -587,8 +587,36 @@ def init_embedding_and_projection_parameters(vocab_size, d_model, tie_weights=Tr
 
     return embed_proj_params
 
-# Step 55 - collect_model_parameters_into_list (not yet solved)
-# TODO: implement
+# Step 55 - collect_model_parameters_into_list
+import torch
+
+def collect_model_parameters_into_list(encoder_layer_params, decoder_layer_params, embedding_params):
+    seen = {}
+    model_parameters = []
+
+    # Collect all parameters with names
+    all_params = []
+
+    for layer_idx, layer_param in enumerate(encoder_layer_params):
+        for name, param in layer_param.items():
+            all_params.append((f"encoder_layer_{layer_idx}.{name}", param))
+
+    for layer_idx, layer_param in enumerate(decoder_layer_params):
+        for name, param in layer_param.items():
+            all_params.append((f"decoder_layer_{layer_idx}.{name}", param))
+
+    for name, param in embedding_params.items():
+        all_params.append((f"embedding.{name}", param))
+
+    # Keep only unique parameter objects
+    for name, param in all_params:
+        param_id = id(param)
+
+        if param_id not in seen:
+            seen[param_id] = name
+            model_parameters.append(param)
+
+    return model_parameters
 
 # Step 56 - shift_targets_right_with_start_token (not yet solved)
 # TODO: implement
