@@ -525,8 +525,43 @@ def init_encoder_layer_parameters(d_model, num_heads, d_ff):
 
     return encoder_layer_params
 
-# Step 53 - init_decoder_layer_parameters (not yet solved)
-# TODO: implement
+# Step 53 - init_decoder_layer_parameters
+import torch
+
+def init_decoder_layer_parameters(d_model, num_heads, d_ff):
+    def xavier_tensor(shape):
+        t = torch.empty(shape)
+        torch.nn.init.xavier_uniform_(t)
+        t.requires_grad_()
+        return t
+
+    decoder_layer_params = {
+        "w_q_self": xavier_tensor((d_model, d_model)),
+        "w_k_self": xavier_tensor((d_model, d_model)),
+        "w_v_self": xavier_tensor((d_model, d_model)),
+        "w_o_self": xavier_tensor((d_model, d_model)),
+
+        "w_q_cross": xavier_tensor((d_model, d_model)),
+        "w_k_cross": xavier_tensor((d_model, d_model)),
+        "w_v_cross": xavier_tensor((d_model, d_model)),
+        "w_o_cross": xavier_tensor((d_model, d_model)),
+
+        "w1": xavier_tensor((d_model, d_ff)),
+        "b1": torch.zeros((d_ff,), requires_grad=True),
+
+        "w2": xavier_tensor((d_ff, d_model)),
+        "b2": torch.zeros((d_model,), requires_grad=True),
+
+        "self_gamma": torch.ones((d_model,), requires_grad=True),
+        "self_beta": torch.zeros((d_model,), requires_grad=True),
+        "cross_gamma": torch.ones((d_model,), requires_grad=True),
+        "cross_beta": torch.zeros((d_model,), requires_grad=True),
+
+        "ffn_gamma": torch.ones((d_model,), requires_grad=True),
+        "ffn_beta": torch.zeros((d_model,), requires_grad=True),
+    }
+
+    return decoder_layer_params
 
 # Step 54 - init_embedding_and_projection_parameters (not yet solved)
 # TODO: implement
