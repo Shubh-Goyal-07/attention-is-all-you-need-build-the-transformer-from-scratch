@@ -668,8 +668,13 @@ def compute_label_smoothed_kl_loss(log_probabilities, smoothed_distribution):
     """Return the summed KL loss over all (batch, time, vocab) entries."""
     return torch.sum(-log_probabilities * smoothed_distribution)
 
-# Step 62 - average_loss_over_non_pad_tokens (not yet solved)
-# TODO: implement
+# Step 62 - average_loss_over_non_pad_tokens
+import torch
+
+def average_loss_over_non_pad_tokens(total_loss, gold_token_ids, pad_id):
+    denom = torch.sum(~(gold_token_ids==pad_id))
+    avg_loss = total_loss / (denom if denom else 1)
+    return avg_loss
 
 # Step 63 - compute_token_accuracy_ignoring_pad (not yet solved)
 # TODO: implement
